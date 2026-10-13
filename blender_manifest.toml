@@ -1,0 +1,15 @@
+schema_version = "1.0.0"
+id = "b_instant_meshes_bridge"
+version = "1.0.0"
+name = "BInstantMeshes"
+tagline = "Quad Remesher bridge for the Instant Meshes application"
+maintainer = "Your Name"
+type = "add-on"
+blender_version_min = "4.2.0"
+license = [
+  "SPDX:GPL-3.0-or-later",
+]
+platforms = ["windows-x64", "macos-x64", "macos-arm64", "linux-x64"]
+
+[permissions]
+files = "Required to export/import temporary .obj files and execute the Instant Meshes application."
