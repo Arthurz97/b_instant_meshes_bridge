@@ -1,4 +1,9 @@
 __pycache__/
+.opencode/
+graphify-out/
+dev/
+.graphifyignore
+AGENTS.md
+opencode.json
 *.pyc
 *.zip
-dev/

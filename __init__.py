@@ -2,12 +2,12 @@ import bpy
 from . import preferences
 from . import properties
 from . import panel
-from . import operator
+from . import operators
 
 classes = (
     preferences.BIMB_AddonPreferences,
     properties.BIMB_Settings,
-    operator.BIMB_OT_remesh_active,
+    operators.BIMB_OT_remesh_active,
     panel.BIMB_PT_panel,
 )
 

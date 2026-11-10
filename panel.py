@@ -1,6 +1,6 @@
 import bpy
 import os
-from .operator import BIMB_OT_remesh_active
+from .operators import BIMB_OT_remesh_active
 
 class BIMB_PT_panel(bpy.types.Panel):
     bl_label = "BInstantMeshes"
