@@ -29,10 +29,10 @@ class BIMB_Settings(PropertyGroup):
         description="Prefer (slower) deterministic algorithms",
         default=False,
     )
-    dominant: BoolProperty(
-        name="Dominant",
-        description="Generate a tri/quad dominant mesh instead of a pure tri/quad mesh",
-        default=False,
+    pure_quad_mesh: BoolProperty(
+        name="Pure quad mesh",
+        description="Apply one step of subdivision to extract a pure quad mesh",
+        default=True,
     )
     intrinsic: BoolProperty(
         name="Intrinsic",
