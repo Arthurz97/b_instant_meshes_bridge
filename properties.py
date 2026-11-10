@@ -17,12 +17,17 @@ class BIMB_Settings(PropertyGroup):
         min=0,
         max=10,
     )
-    crease_degree: IntProperty(
-        name="Crease Degree",
+    crease_angle: IntProperty(
+        name="Crease angle",
         description="Dihedral angle threshold for creases",
-        default=0,
+        default=20,
         min=0,
-        max=100,
+        max=180,
+    )
+    sharp_creases: BoolProperty(
+        name="Sharp creases",
+        description="Don't smooth discontinuous surface normals in CAD models and similar input data",
+        default=True,
     )
     deterministic: BoolProperty(
         name="Deterministic",

@@ -39,12 +39,18 @@ class BIMB_PT_panel(bpy.types.Panel):
         # -- Parameters --
         box_params = layout.box()
         box_params.label(text="Parameters:", icon="TOOL_SETTINGS")
+        box_params.prop(settings, "sharp_creases")
+
         col_params = box_params.column(align=True)
         col_params.use_property_split = True
         col_params.use_property_decorate = False
-        
+
         col_params.prop(settings, "smooth_iterations")
-        col_params.prop(settings, "crease_degree")
+
+        col_crease = col_params.column(align=True)
+        col_crease.enabled = settings.sharp_creases
+        col_crease.prop(settings, "crease_angle")
+
         col_params.prop(settings, "vertex_count")
         
         layout.separator(factor=0.5) 

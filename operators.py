@@ -56,7 +56,6 @@ class BIMB_OT_remesh_active(bpy.types.Operator):
                 else:
                     command = [
                         str(executable_path),
-                        "-c", str(settings.crease_degree),
                         "-v", str(settings.vertex_count),
                         "-S", str(settings.smooth_iterations),
                         "-o", str(output_path)
@@ -64,6 +63,9 @@ class BIMB_OT_remesh_active(bpy.types.Operator):
                     if settings.deterministic: command.insert(1, "-d")
                     if not settings.pure_quad_mesh: command.insert(1, "-D")
                     if not settings.extrinsic: command.insert(1, "-i")
+                    if settings.sharp_creases:
+                        command.insert(1, str(settings.crease_angle))
+                        command.insert(1, "-c")
                     if settings.align_to_boundaries: command.insert(1, "-b")
                     command.append(str(input_path))
                     
