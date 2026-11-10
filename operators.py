@@ -56,7 +56,6 @@ class BIMB_OT_remesh_active(bpy.types.Operator):
                 else:
                     command = [
                         str(executable_path),
-                        "-v", str(settings.vertex_count),
                         "-S", str(settings.smooth_iterations),
                         "-o", str(output_path)
                     ]
@@ -75,6 +74,14 @@ class BIMB_OT_remesh_active(bpy.types.Operator):
                         rosy, posy = "4", "4"
                     command.insert(1, posy); command.insert(1, "-p")
                     command.insert(1, rosy); command.insert(1, "-r")
+
+                    if settings.resolution_mode == "VERTICES":
+                        res_flag, res_value = "-v", str(settings.vertex_count)
+                    elif settings.resolution_mode == "FACES":
+                        res_flag, res_value = "-f", str(settings.face_count)
+                    else:  # SCALE
+                        res_flag, res_value = "-s", str(settings.edge_scale)
+                    command.insert(1, res_value); command.insert(1, res_flag)
                     command.append(str(input_path))
                     
                     subprocess.run(command, capture_output=True, text=True, check=False)

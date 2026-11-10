@@ -1,6 +1,6 @@
 import bpy
 from bpy.types import PropertyGroup
-from bpy.props import IntProperty, BoolProperty, EnumProperty
+from bpy.props import IntProperty, FloatProperty, BoolProperty, EnumProperty
 
 class BIMB_Settings(PropertyGroup):
     vertex_count: IntProperty(
@@ -37,6 +37,28 @@ class BIMB_Settings(PropertyGroup):
             ("QUADS_44", "Quads (4-RoSy, 4-PoSy)", ""),
         ],
         default="QUADS_44",
+    )
+    resolution_mode: EnumProperty(
+        name="Resolution Mode",
+        items=[
+            ("VERTICES", "Vertex Count", "Desired vertex count of the output mesh"),
+            ("FACES", "Face Count", "Desired face count of the output mesh"),
+            ("SCALE", "Edge Scale", "Desired world space length of edges in the output"),
+        ],
+        default="VERTICES",
+    )
+    face_count: IntProperty(
+        name="Face Count",
+        description="Desired face count of the output mesh",
+        default=2000,
+        min=10,
+    )
+    edge_scale: FloatProperty(
+        name="Edge Scale",
+        description="Desired world space length of edges in the output",
+        default=1.0,
+        min=0.01,
+        subtype="DISTANCE",
     )
     deterministic: BoolProperty(
         name="Deterministic",

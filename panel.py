@@ -61,7 +61,14 @@ class BIMB_PT_panel(bpy.types.Panel):
         col_crease.enabled = settings.sharp_creases
         col_crease.prop(settings, "crease_angle")
 
-        col_params.prop(settings, "vertex_count")
+        col_params.prop(settings, "resolution_mode")
+
+        if settings.resolution_mode == "VERTICES":
+            col_params.prop(settings, "vertex_count")
+        elif settings.resolution_mode == "FACES":
+            col_params.prop(settings, "face_count")
+        else:  # SCALE
+            col_params.prop(settings, "edge_scale")
         
         layout.separator(factor=0.5) 
 
