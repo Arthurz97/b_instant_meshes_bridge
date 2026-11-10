@@ -34,10 +34,10 @@ class BIMB_Settings(PropertyGroup):
         description="Apply one step of subdivision to extract a pure quad mesh",
         default=True,
     )
-    intrinsic: BoolProperty(
-        name="Intrinsic",
-        description="Intrinsic mode (extrinsic is the default)",
-        default=False,
+    extrinsic: BoolProperty(
+        name="Extrinsic",
+        description="Use an extrinsic smoothness energy with automatic parameter-free alignment to geometric features",
+        default=True,
     )
     boundaries: BoolProperty(
         name="Boundaries",

@@ -33,7 +33,7 @@ class BIMB_PT_panel(bpy.types.Panel):
         col_algo = box_algo.column(align=True)
         col_algo.prop(settings, "deterministic")
         col_algo.prop(settings, "pure_quad_mesh")
-        col_algo.prop(settings, "intrinsic")
+        col_algo.prop(settings, "extrinsic")
         col_algo.prop(settings, "boundaries")
 
         # -- Parameters --
