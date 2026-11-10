@@ -67,6 +67,14 @@ class BIMB_OT_remesh_active(bpy.types.Operator):
                         command.insert(1, str(settings.crease_angle))
                         command.insert(1, "-c")
                     if settings.align_to_boundaries: command.insert(1, "-b")
+                    if settings.remesh_as == "TRIANGLES":
+                        rosy, posy = "6", "6"
+                    elif settings.remesh_as == "QUADS_24":
+                        rosy, posy = "2", "4"
+                    else:  # QUADS_44 (default)
+                        rosy, posy = "4", "4"
+                    command.insert(1, posy); command.insert(1, "-p")
+                    command.insert(1, rosy); command.insert(1, "-r")
                     command.append(str(input_path))
                     
                     subprocess.run(command, capture_output=True, text=True, check=False)

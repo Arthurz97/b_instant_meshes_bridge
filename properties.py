@@ -1,6 +1,6 @@
 import bpy
 from bpy.types import PropertyGroup
-from bpy.props import IntProperty, BoolProperty
+from bpy.props import IntProperty, BoolProperty, EnumProperty
 
 class BIMB_Settings(PropertyGroup):
     vertex_count: IntProperty(
@@ -28,6 +28,15 @@ class BIMB_Settings(PropertyGroup):
         name="Sharp creases",
         description="Don't smooth discontinuous surface normals in CAD models and similar input data",
         default=True,
+    )
+    remesh_as: EnumProperty(
+        name="Remesh as",
+        items=[
+            ("TRIANGLES", "Triangles (6-RoSy, 6-PoSy)", ""),
+            ("QUADS_24", "Quads (2-RoSy, 4-PoSy)", ""),
+            ("QUADS_44", "Quads (4-RoSy, 4-PoSy)", ""),
+        ],
+        default="QUADS_44",
     )
     deterministic: BoolProperty(
         name="Deterministic",

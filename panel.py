@@ -31,8 +31,18 @@ class BIMB_PT_panel(bpy.types.Panel):
         box_algo = layout.box()
         box_algo.label(text="Algorithm:", icon="MESH_DATA")
         col_algo = box_algo.column(align=True)
+
+        col_mode = col_algo.row()
+        col_mode.use_property_split = True
+        col_mode.use_property_decorate = False
+        col_mode.prop(settings, "remesh_as")
+
         col_algo.prop(settings, "deterministic")
-        col_algo.prop(settings, "pure_quad_mesh")
+
+        row_purequad = col_algo.row()
+        row_purequad.enabled = (settings.remesh_as != "TRIANGLES")
+        row_purequad.prop(settings, "pure_quad_mesh")
+
         col_algo.prop(settings, "extrinsic")
         col_algo.prop(settings, "align_to_boundaries")
 
