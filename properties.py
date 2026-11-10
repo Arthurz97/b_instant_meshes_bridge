@@ -39,9 +39,9 @@ class BIMB_Settings(PropertyGroup):
         description="Use an extrinsic smoothness energy with automatic parameter-free alignment to geometric features",
         default=True,
     )
-    boundaries: BoolProperty(
-        name="Boundaries",
-        description="Align to boundaries (only applies when the mesh is not closed)",
+    align_to_boundaries: BoolProperty(
+        name="Align to boundaries",
+        description="Align to boundaries (only applies to open / non-manifold meshes)",
         default=False,
     )
     preserve_transforms: BoolProperty(

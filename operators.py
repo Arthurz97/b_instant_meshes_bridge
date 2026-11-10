@@ -64,7 +64,7 @@ class BIMB_OT_remesh_active(bpy.types.Operator):
                     if settings.deterministic: command.insert(1, "-d")
                     if not settings.pure_quad_mesh: command.insert(1, "-D")
                     if not settings.extrinsic: command.insert(1, "-i")
-                    if settings.boundaries: command.insert(1, "-b")
+                    if settings.align_to_boundaries: command.insert(1, "-b")
                     command.append(str(input_path))
                     
                     subprocess.run(command, capture_output=True, text=True, check=False)
