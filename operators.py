@@ -4,7 +4,7 @@ import tempfile
 import subprocess
 import mathutils
 from pathlib import Path
-from .utils import select_only, get_executable_path
+from .utils import select_only, get_executable_path, clear_last_visited_mru
 
 class BIMB_OT_remesh_active(bpy.types.Operator):
     bl_idname = "object.bimb_remesh_active"
@@ -127,10 +127,11 @@ class BIMB_OT_remesh_active(bpy.types.Operator):
             return {"CANCELLED"}
 
         # 2. Espera o usuário completar o ciclo no exe (UI travada por design).
-        # cwd=temp_dir: best-effort para o diálogo de salvar abrir na pasta temp
-        # (o Windows pode sobrescrever com a última pasta usada pelo exe).
+        # Sem entrada 'last visited' utilizável no registro, a ComDlg32 usa o
+        # fallback documentado (cwd com arquivos do filtro *.obj) = pasta temp.
         launch_mtime = output_path.stat().st_mtime
         self.report({"INFO"}, "Waiting for Instant Meshes GUI to close...")
+        clear_last_visited_mru(executable_path)
         subprocess.run([str(executable_path), str(output_path)], cwd=str(temp_dir), check=False)
 
         # 3. Importa somente se o usuário salvou (out.obj mudou desde o launch)
