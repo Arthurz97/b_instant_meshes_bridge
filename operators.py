@@ -4,7 +4,7 @@ import tempfile
 import subprocess
 import mathutils
 from pathlib import Path
-from .utils import select_only, get_executable_path, clear_last_visited_mru
+from .utils import select_only, get_executable_path, clear_last_visited_mru, calibrate_density, calibrate_scale
 
 class BIMB_OT_remesh_active(bpy.types.Operator):
     bl_idname = "object.bimb_remesh_active"
@@ -73,12 +73,21 @@ class BIMB_OT_remesh_active(bpy.types.Operator):
                 command.insert(1, posy); command.insert(1, "-p")
                 command.insert(1, rosy); command.insert(1, "-r")
 
+                # Calibração de densidade (matriz_densidade.md + teste manual do
+                # Edge Scale): em modo quad com pure quad o exe subdivide a
+                # extração uma vez (extract.cpp 'Step 9'), entregando ~4x a meta
+                # de contagem e metade do comprimento de aresta. Enviamos meta/4
+                # nas contagens e scale x2 para entregar o prometido; com -D ou
+                # em triângulos a meta é cumprida como pedida.
                 if settings.resolution_mode == "VERTICES":
-                    res_flag, res_value = "-v", str(settings.vertex_count)
+                    res_flag, res_value = "-v", str(calibrate_density(
+                        settings.remesh_as, settings.pure_quad_mesh, settings.vertex_count))
                 elif settings.resolution_mode == "FACES":
-                    res_flag, res_value = "-f", str(settings.face_count)
+                    res_flag, res_value = "-f", str(calibrate_density(
+                        settings.remesh_as, settings.pure_quad_mesh, settings.face_count))
                 else:  # SCALE
-                    res_flag, res_value = "-s", str(settings.edge_scale)
+                    res_flag, res_value = "-s", str(calibrate_scale(
+                        settings.remesh_as, settings.pure_quad_mesh, settings.edge_scale))
                 command.insert(1, res_value); command.insert(1, res_flag)
                 command.append(str(input_path))
 

@@ -70,3 +70,27 @@ def clear_last_visited_mru(exe_path):
             winreg.SetValueEx(key, "MRUListEx", 0, winreg.REG_BINARY, struct.pack("<%di" % len(entries), *entries))
     except (OSError, struct.error):
         pass
+
+def calibrate_density(remesh_as, pure_quad, value):
+    """Divides a quad-mode resolution goal by 4 when pure-quad extraction is on.
+
+    Empirical basis (dev/temp/matriz_densidade.md): with pure quad (no -D) the
+    exe subdivides the extracted mesh once (extract.cpp 'Step 9: Regular
+    subdivision into pure quad mesh'), delivering ~4x the requested count.
+    With -D or in triangle mode the goal is met as requested.
+    """
+    if pure_quad and remesh_as in ("QUADS_44", "QUADS_24"):
+        return max(1, round(value / 4))
+    return value
+
+def calibrate_scale(remesh_as, pure_quad, value):
+    """Doubles the edge-scale goal when pure-quad extraction is on.
+
+    Empirical basis (manual test): with pure quad (no -D) in quad mode the
+    subdivision halves the final edge length (requested 0.5 -> delivered 0.25),
+    so the goal is sent as 2x to deliver the requested length. Triangles and
+    -D meet the goal as requested.
+    """
+    if pure_quad and remesh_as in ("QUADS_44", "QUADS_24"):
+        return value * 2
+    return value
