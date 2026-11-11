@@ -1,6 +1,6 @@
 import bpy
-import os
 from .operators import BIMB_OT_remesh_active
+from .utils import get_executable_path
 
 class BIMB_PT_panel(bpy.types.Panel):
     bl_label = "BInstantMeshes"
@@ -77,8 +77,8 @@ class BIMB_PT_panel(bpy.types.Panel):
         col_exec.scale_y = 1.5
         col_exec.operator(BIMB_OT_remesh_active.bl_idname, text="Remesh", icon="VIEW_PERSPECTIVE")
 
-        # Warning if executable is not set
-        executable = bpy.path.abspath(prefs.executable_path)
-        if not executable or not os.path.isfile(executable):
+        # Warning if no executable can be resolved (user path or bundled bin/)
+        executable = get_executable_path(prefs)
+        if executable is None:
             layout.separator()
             layout.label(text="Executable not configured!", icon="ERROR")

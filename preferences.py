@@ -1,4 +1,7 @@
 import bpy
+import os
+
+from .utils import get_bundled_executable_path
 
 class BIMB_AddonPreferences(bpy.types.AddonPreferences):
     bl_idname = __package__
@@ -13,6 +16,11 @@ class BIMB_AddonPreferences(bpy.types.AddonPreferences):
     def draw(self, context):
         layout = self.layout
         layout.prop(self, "executable_path")
-        
-        if not self.executable_path:
-            layout.label(text="Please set the path to the Instant Meshes executable to use this add-on.", icon="ERROR")
+
+        if self.executable_path and os.path.isfile(bpy.path.abspath(self.executable_path)):
+            return  # user path valido: nenhum aviso
+
+        if os.path.isfile(get_bundled_executable_path()):
+            layout.label(text="Using bundled executable. You can set a custom path above if you prefer.", icon="INFO")
+        else:
+            layout.label(text="Executable not found. Please set a custom path above or ensure 'Instant Meshes.exe' is inside the bundled 'bin' folder.", icon="ERROR")

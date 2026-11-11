@@ -1,11 +1,10 @@
 import bpy
-import os
 import shutil
 import tempfile
 import subprocess
 import mathutils
 from pathlib import Path
-from .utils import select_only
+from .utils import select_only, get_executable_path
 
 class BIMB_OT_remesh_active(bpy.types.Operator):
     bl_idname = "object.bimb_remesh_active"
@@ -22,8 +21,8 @@ class BIMB_OT_remesh_active(bpy.types.Operator):
         settings = context.scene.bimb_settings
         prefs = context.preferences.addons[__package__].preferences
         
-        executable_path = bpy.path.abspath(prefs.executable_path)
-        if not executable_path or not os.path.isfile(executable_path):
+        executable_path = get_executable_path(prefs)
+        if executable_path is None:
             self.report({"ERROR"}, "Instant Meshes executable not found. Configure it in Preferences.")
             return {"CANCELLED"}
 
