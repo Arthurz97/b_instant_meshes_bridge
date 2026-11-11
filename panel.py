@@ -28,7 +28,7 @@ class BIMB_PT_panel(bpy.types.Panel):
         col_work = box_work.column(align=True)
         col_work.prop(settings, "preserve_transforms")
         col_work.prop(settings, "apply_modifiers")
-        col_work.prop(settings, "transfer_uvs")
+        col_work.prop(settings, "shade_smooth")
         col_work.prop(settings, "hide_original")
 
         # -- Algorithm Toggles --

@@ -182,14 +182,11 @@ class BIMB_OT_remesh_active(bpy.types.Operator):
         # 4. Process Workflow Toggles
         self._copy_materials(source_obj, imported)
 
-        if settings.transfer_uvs and source_obj.data.uv_layers:
-            self._transfer_uvs(context, source_obj, imported)
-
         if settings.hide_original:
             source_obj.hide_set(True)
 
-        # 5. Clean up mesh data (flat shading, clear sharp edges)
-        self._cleanup_mesh(context, imported)
+        # 5. Clean up mesh data (flat/smooth shading, clear sharp edges)
+        self._cleanup_mesh(context, imported, settings)
 
         # 6. Apply Transforms and Restore Pivot (Lógica baseada no BPyMeshLab)
         select_only(context, imported)
@@ -242,34 +239,16 @@ class BIMB_OT_remesh_active(bpy.types.Operator):
         for material in source_obj.data.materials:
             imported.data.materials.append(material)
 
-    def _transfer_uvs(self, context, source_obj, imported):
-        select_only(context, imported)
-        source_obj.select_set(True)
-        context.view_layer.objects.active = source_obj
-        try:
-            bpy.ops.object.data_transfer(
-                data_type="UV",
-                use_create=True,
-                vert_mapping="NEAREST",
-                edge_mapping="NEAREST",
-                loop_mapping="NEAREST_POLYNOR",
-                poly_mapping="NEAREST",
-                use_object_transform=True,
-                layers_select_src="ACTIVE",
-                layers_select_dst="ACTIVE",
-                mix_mode="REPLACE",
-                mix_factor=1.0,
-            )
-        except Exception as exc:
-            self.report({"WARNING"}, f"Remesh done, but UV transfer failed: {exc}")
-
-    def _cleanup_mesh(self, context, imported):
+    def _cleanup_mesh(self, context, imported, settings):
         select_only(context, imported)
 
         for edge in imported.data.edges:
             edge.use_edge_sharp = False
 
-        bpy.ops.object.shade_flat()
+        if settings.shade_smooth:
+            bpy.ops.object.shade_smooth()
+        else:
+            bpy.ops.object.shade_flat()
         bpy.ops.mesh.customdata_custom_splitnormals_clear()
 
     def _restore_selection(self, context, selected_objects, active_object):

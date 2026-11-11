@@ -90,9 +90,9 @@ class BIMB_Settings(PropertyGroup):
         description="Apply all modifiers before sending the mesh to Instant Meshes",
         default=False,
     )
-    transfer_uvs: BoolProperty(
-        name="Transfer UVs",
-        description="Project original UV maps onto the new remeshed object",
+    shade_smooth: BoolProperty(
+        name="Shade Smooth",
+        description="Render and display faces smooth, using interpolated vertex normals.",
         default=False,
     )
     hide_original: BoolProperty(
