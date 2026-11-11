@@ -101,7 +101,7 @@ class BIMB_Settings(PropertyGroup):
         default=True,
     )
     open_ui: BoolProperty(
-        name="Open in Instant Meshes",
+        name="Use GUI Mode",
         description="Opens the object in the Instant Meshes GUI. IMPORTANT: Export overwriting the 'out.obj' file and close the app to import the result automatically",
         default=False,
     )

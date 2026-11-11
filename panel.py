@@ -33,6 +33,7 @@ class BIMB_PT_panel(bpy.types.Panel):
 
         # -- Algorithm Toggles --
         box_algo = layout.box()
+        box_algo.enabled = not settings.open_ui
         box_algo.label(text="Algorithm:", icon="MESH_DATA")
         col_algo = box_algo.column(align=True)
 
@@ -52,6 +53,7 @@ class BIMB_PT_panel(bpy.types.Panel):
 
         # -- Parameters --
         box_params = layout.box()
+        box_params.enabled = not settings.open_ui
         box_params.label(text="Parameters:", icon="TOOL_SETTINGS")
         box_params.prop(settings, "sharp_creases")
 
@@ -79,7 +81,10 @@ class BIMB_PT_panel(bpy.types.Panel):
         # -- Execution Button --
         col_exec = layout.column(align=True)
         col_exec.scale_y = 1.5
-        col_exec.operator(BIMB_OT_remesh_active.bl_idname, text="Remesh", icon="VIEW_PERSPECTIVE")
+        if settings.open_ui:
+            col_exec.operator(BIMB_OT_remesh_active.bl_idname, text="Open in Instant Meshes", icon="WINDOW")
+        else:
+            col_exec.operator(BIMB_OT_remesh_active.bl_idname, text="Remesh", icon="VIEW_PERSPECTIVE")
 
         # Warning if no executable can be resolved (user path or bundled bin/)
         executable = get_executable_path(prefs)
