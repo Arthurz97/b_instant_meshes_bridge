@@ -132,7 +132,11 @@ class BIMB_OT_remesh_active(bpy.types.Operator):
         launch_mtime = output_path.stat().st_mtime
         self.report({"INFO"}, "Waiting for Instant Meshes GUI to close...")
         clear_last_visited_mru(executable_path)
-        subprocess.run([str(executable_path), str(output_path)], cwd=str(temp_dir), check=False)
+        command = [str(executable_path)]
+        if settings.gui_fullscreen:
+            command.append("-F")
+        command.append(str(output_path))
+        subprocess.run(command, cwd=str(temp_dir), check=False)
 
         # 3. Importa somente se o usuário salvou (out.obj mudou desde o launch)
         saved = False

@@ -19,6 +19,7 @@ class BIMB_PT_panel(bpy.types.Panel):
         col_top.prop(settings, "open_ui", icon="WINDOW")
 
         if settings.open_ui:
+            col_top.prop(settings, "gui_fullscreen")
             col_top.label(text="Export as 'out.obj' in Instant", icon="INFO")
             col_top.label(text="Meshes and close it to import automatically.")
 

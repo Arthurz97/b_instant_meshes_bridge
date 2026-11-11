@@ -105,3 +105,8 @@ class BIMB_Settings(PropertyGroup):
         description="Opens the object in the Instant Meshes GUI. IMPORTANT: Export overwriting the 'out.obj' file and close the app to import the result automatically",
         default=False,
     )
+    gui_fullscreen: BoolProperty(
+        name="Fullscreen",
+        description="Open a full-screen window",
+        default=False,
+    )
