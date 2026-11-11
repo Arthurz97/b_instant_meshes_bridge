@@ -18,6 +18,10 @@ class BIMB_PT_panel(bpy.types.Panel):
         col_top = layout.column(align=True)
         col_top.prop(settings, "open_ui", icon="WINDOW")
 
+        if settings.open_ui:
+            col_top.label(text="Export as 'out.obj' in Instant", icon="INFO")
+            col_top.label(text="Meshes and close it to import automatically.")
+
         # -- Workflow Toggles --
         box_work = layout.box()
         box_work.label(text="Workflow:", icon="MODIFIER")
